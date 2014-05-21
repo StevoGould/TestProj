@@ -13,7 +13,7 @@ module BrowserMob
       end
     end
     class WebDriverListener
-      def har_presnt
+      def har_present
         begin
           @client.har
         rescue JSON::ParserError => e
@@ -24,7 +24,7 @@ module BrowserMob
       end
 
       def before_navigate_to(url, driver)
-        save_har if har_presnt # first request
+        save_har if har_present # first request
         @client.new_har("navigate-to-#{url}", @new_har_opts)
         @current_url = url
       end
