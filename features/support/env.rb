@@ -12,6 +12,7 @@ require 'browsermob/proxy'
 require 'browsermob/proxy/webdriver_listener'
 require 'json'
 require File.dirname(__FILE__) +  '/tesco_browser_mob'
+require File.dirname(__FILE__) +  '/store_hars'
 
 
 server = BrowserMob::Proxy::Server.new(File.dirname(__FILE__) + "/../../resources/browsermob-proxy-2.0-beta-9/bin/browsermob-proxy.bat",:port => 9090, :log => true) #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
@@ -26,7 +27,8 @@ proxy_listener =  BrowserMob::Proxy::WebDriverListener.new(proxy)
   end
 
 at_exit do
-  proxy_listener.hars.each {|data| data.save_to "goo.har"}
+  #proxy_listener.hars.each {|data| data.save_to "goo.har"}
+  proxy_listener.hars.each {|data| @hars_collection.insert(JSON.parse(data.to_json))}
   proxy.close
   server.stop
 end
